@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 '''
-Scrape metadata from an NEC Retro page, e.g. https://necretro.org/List_of_TurboGrafx-CD_(CD-ROM%C2%B2)_games_in_the_United_States
+Scrape metadata from HTML of an NEC Retro page, e.g. https://necretro.org/List_of_TurboGrafx-CD_(CD-ROM%C2%B2)_games_in_the_United_States
 '''
 from bs4 import BeautifulSoup
 from pathlib import Path
@@ -21,8 +21,17 @@ if __name__ == "__main__":
         name, release_date, rrp, serial = cols
         release_date = release_date.split('[')[0].strip()
         game_dir = games_dir / serial
+        if 'arcade_cdrom2' in argv[2]:
+            cd_format = 'Arcade CD-ROM²'
+        elif 'super_cdrom2' in argv[2]:
+            cd_format = 'Super CD-ROM²'
+        elif 'cdrom2' in argv[2]:
+            cd_format = 'CD-ROM²'
+        else:
+            cd_format = None
         if not game_dir.exists():
             game_dir.mkdir()
-        for fn, data in [('title.txt',name), ('release_date.txt',release_date), ('serial.txt',serial)]:
-            with open(game_dir / fn, 'wt') as f:
-                f.write(data.strip() + '\n')
+        for fn, data in [('title.txt',name), ('release_date.txt',release_date), ('serial.txt',serial), ('cd_format.txt',cd_format)]:
+            if data is not None:
+                with open(game_dir / fn, 'wt') as f:
+                    f.write(data.strip() + '\n')
