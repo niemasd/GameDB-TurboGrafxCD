@@ -19,9 +19,10 @@ if __name__ == "__main__":
         if len(cols) == 0:
             continue
         name, release_date, rrp, serial = cols
+        release_date = release_date.split('[')[0].strip()
         game_dir = games_dir / serial
         if not game_dir.exists():
             game_dir.mkdir()
-            for fn, data in [('title.txt',name), ('release_date.txt',release_date), ('serial.txt',serial)]:
-                with open(game_dir / fn, 'wt') as f:
-                    f.write(data.strip() + '\n')
+        for fn, data in [('title.txt',name), ('release_date.txt',release_date), ('serial.txt',serial)]:
+            with open(game_dir / fn, 'wt') as f:
+                f.write(data.strip() + '\n')
