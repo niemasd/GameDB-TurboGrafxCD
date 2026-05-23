@@ -29,9 +29,21 @@ if __name__ == "__main__":
             cd_format = 'CD-ROM²'
         else:
             cd_format = None
+        if '_japan' in argv[2]:
+            region = 'NTSC-J'
+        elif '_usa' in argv[2]:
+            region = 'NTSC-U'
+        else:
+            region = None
         if not game_dir.exists():
             game_dir.mkdir()
-        for fn, data in [('title.txt',name), ('release_date.txt',release_date), ('serial.txt',serial), ('cd_format.txt',cd_format)]:
+        for fn, data in [
+            ('title.txt', name),
+            ('release_date.txt', release_date),
+            ('serial.txt', serial),
+            ('cd_format.txt', cd_format),
+            ('region.txt', region),
+        ]:
             if data is not None:
                 with open(game_dir / fn, 'wt') as f:
                     f.write(data.strip() + '\n')
