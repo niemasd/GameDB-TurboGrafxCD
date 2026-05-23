@@ -1,1 +1,2 @@
 Shogi Database Kiyuu
+将棋データベース 棋友
